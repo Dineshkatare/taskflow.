@@ -1,0 +1,44 @@
+name: CI
+
+on:
+  push:
+    branches: [main]
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: subosito/flutter-action@v2
+        with:
+          channel: stable
+          cache: true
+
+      # One-time step: generate the Android, iOS and Web platform folders
+      # if they don't exist yet, and commit them back to the repo.
+      - name: Generate platform folders (first run only)
+        if: github.event_name != 'pull_request'
+        run: |
+          if [ ! -d android ]; then
+            flutter create . --org com.dineshkatare --project-name taskflow --platforms android,ios,web
+            git config user.name "github-actions[bot]"
+            git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+            git add -A
+            git commit -m "chore: generate android, ios and web platform folders"
+            git push
+          fi
+
+      - name: Install dependencies
+        run: flutter pub get
+
+      - name: Analyze
+        run: flutter analyze
+
+      - name: Test
+        run: flutter test
