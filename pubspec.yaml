@@ -11,6 +11,8 @@ dependencies:
   flutter:
     sdk: flutter
   cupertino_icons: ^1.0.8
+  # Material widgets moved out of the Flutter SDK into this package (Flutter 3.47+).
+  material_ui: any
 
 dev_dependencies:
   flutter_test:
