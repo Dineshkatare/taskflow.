@@ -14,14 +14,12 @@ class TaskFlowApp extends StatelessWidget {
       debugShowCheckedModeBanner: false,
       theme: ThemeData(
         colorScheme: ColorScheme.fromSeed(seedColor: const Color(0xFF4F46E5)),
-        useMaterial3: true,
       ),
       darkTheme: ThemeData(
         colorScheme: ColorScheme.fromSeed(
           seedColor: const Color(0xFF4F46E5),
           brightness: Brightness.dark,
         ),
-        useMaterial3: true,
       ),
       home: const WelcomePage(),
     );
